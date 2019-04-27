@@ -73,7 +73,7 @@ fi
 sudo python3 ./genUUID.py
 sudo chmod +r ./config.json
 sudo mkdir /etc/v2ray
-sudo mv ./config.json /etc/v2ray/config.json
+sudo cp ./config.json /etc/v2ray/config.json
 sudo docker run --restart always --network host -d --name v2ray -v /etc/v2ray:/etc/v2ray v2ray/official  v2ray -config=/etc/v2ray/config.json
 if [ $? -eq 0 ]; then
     printf "${TPUT_BGGREEN}${TPUT_WHITE}${TPUT_BOLD} OK ${TPUT_RESET} ${*} \t"
