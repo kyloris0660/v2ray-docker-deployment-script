@@ -16,8 +16,8 @@ TPUT_BOLD="$(tput bold)"
 TPUT_DIM="$(tput dim)"
 
 # install docker ce for Ubuntu
-sudo apt-get update
-sudo apt-get install -y \
+apt-get update
+apt-get install -y \
     apt-transport-https \
     ca-certificates \
     curl \
@@ -32,14 +32,14 @@ else
     echo -e "${red}failed to install components.${none}"
     exit 1
 fi
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo apt-key fingerprint 0EBFCD88
-sudo add-apt-repository \
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg |  apt-key add -
+apt-key fingerprint 0EBFCD88
+add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
    stable"
-sudo apt-get update
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+apt-get update
+apt-get install -y docker-ce docker-ce-cli containerd.io
 if [ $? -eq 0 ]; then
     printf "${TPUT_BGGREEN}${TPUT_WHITE}${TPUT_BOLD} OK ${TPUT_RESET} ${*} \t"
     echo -e "${green}Docker installed.${none}"
@@ -48,8 +48,8 @@ else
     echo -e "${red}failed to install Docker.${none}"
     exit 1
 fi
-sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 if [ $? -eq 0 ]; then
     printf "${TPUT_BGGREEN}${TPUT_WHITE}${TPUT_BOLD} OK ${TPUT_RESET} ${*} \t"
@@ -70,11 +70,11 @@ else
     echo -e "${red}failed to pull v2ray image.${none}"
     exit 1
 fi
-sudo python3 ./genUUID.py
-sudo chmod +r ./config.json
-sudo mkdir /etc/v2ray
-sudo cp ./config.json /etc/v2ray/config.json
-sudo docker run --restart always --network host -d --name v2ray -v /etc/v2ray:/etc/v2ray v2ray/official  v2ray -config=/etc/v2ray/config.json
+python3 ./genUUID.py
+chmod +r ./config.json
+mkdir /etc/v2ray
+cp ./config.json /etc/v2ray/config.json
+docker run --restart always --network host -d --name v2ray -v /etc/v2ray:/etc/v2ray v2ray/official  v2ray -config=/etc/v2ray/config.json
 if [ $? -eq 0 ]; then
     printf "${TPUT_BGGREEN}${TPUT_WHITE}${TPUT_BOLD} OK ${TPUT_RESET} ${*} \t"
     echo -e "${green}v2ray online.${none}"
@@ -89,10 +89,10 @@ docker volume create portainer_data
 docker run -d -p 9000:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
 if [ $? -eq 0 ]; then
     printf "${TPUT_BGGREEN}${TPUT_WHITE}${TPUT_BOLD} OK ${TPUT_RESET} ${*} \t"
-    echo -e "${green}portainer online localhost:9000.${none}"
+    echo -e "${green}portainer online (localhost:9000).${none}"
 else
     printf "${TPUT_BGRED}${TPUT_WHITE}${TPUT_BOLD} ABORTED ${TPUT_RESET} ${*} \t"
     echo -e "${red}failed to setup portainer docker.${none}"
 fi
 printf "${TPUT_BGGREEN}${TPUT_WHITE}${TPUT_BOLD} OK ${TPUT_RESET} ${*} \t"
-echo -e "${green}Installation complete.${none}"
+echo -e "${green}Installation Complete.${none}"
