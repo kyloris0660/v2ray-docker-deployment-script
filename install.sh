@@ -89,7 +89,7 @@ docker volume create portainer_data
 docker run -d -p 9000:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
 if [ $? -eq 0 ]; then
     printf "${TPUT_BGGREEN}${TPUT_WHITE}${TPUT_BOLD} OK ${TPUT_RESET} ${*} \t"
-    echo -e "${green}portainer online (localhost:9000).${none}"
+    echo -e "${green}portainer online localhost:9000.${none}"
 else
     printf "${TPUT_BGRED}${TPUT_WHITE}${TPUT_BOLD} ABORTED ${TPUT_RESET} ${*} \t"
     echo -e "${red}failed to setup portainer docker.${none}"
