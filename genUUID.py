@@ -1,5 +1,7 @@
 import json
 import uuid
+import base64
+import socket
 
 templete = '''{
 	"inbounds": [
@@ -106,19 +108,33 @@ templete = '''{
 		}
 	}
 }'''
+
 if __name__ == '__main__':
     file = json.loads(templete)
     print('============================================')
     port = input('Enter Port (from 0 - 65535): ')
     file['inbounds'][0]['port'] = int(port)
     file['inbounds'][0]['settings']['clients'][0]['id'] = str(uuid.uuid4())
+    IP = socket.gethostbyname(socket.gethostname())
     UUID = file['inbounds'][0]['settings']['clients'][0]['id']
     PORT = file['inbounds'][0]['port']
     ALTERID = file['inbounds'][0]['settings']['clients'][0]['alterId']
+    kitsunebi_format_str = 'vmess://' + (base64.b64encode(str.encode(
+        'auto:%s@%s:%s' % (UUID, IP, PORT)))).decode(
+        "utf-8") + '?network=tcp&aid=64&tls=0&allowInsecure=1&mux=1&muxConcurrency=8'
+    qr_code = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + kitsunebi_format_str
     print('============================================')
+    print('IP: \033[0;31m%s\033[0m' % IP)
     print('UUID: \033[0;31m%s\033[0m' % UUID)
     print('PORT: \033[0;31m%s\033[0m' % PORT)
     print('ALTERID: \033[0;31m%s\033[0m' % ALTERID)
+    print('QRCODE for kitsunebi: \033[0;31m%s\033[0m' % qr_code)
+    print('\033[0;32m%s\033[0m' % 'Config File Saved As ./config.txt')
     print('============================================')
     with open('config.json', 'w') as f:
         json.dump(file, f, indent=4)
+    with open('config.txt', 'w') as j:
+        j.write('UUID: %s\n' % UUID)
+        j.write('PORT: %s\n' % PORT)
+        j.write('ALTERID: %s\n' % ALTERID)
+        j.write('QRCODE for kitsunebi: %s\n' % qr_code)
