@@ -109,13 +109,22 @@ templete = '''{
 	}
 }'''
 
+
+def get_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    ip = s.getsockname()[0]
+    s.close()
+    return ip
+
+
 if __name__ == '__main__':
     file = json.loads(templete)
     print('============================================')
     port = input('Enter Port (from 0 - 65535): ')
     file['inbounds'][0]['port'] = int(port)
     file['inbounds'][0]['settings']['clients'][0]['id'] = str(uuid.uuid4())
-    IP = socket.gethostbyname(socket.gethostname())
+    IP = get_ip()
     UUID = file['inbounds'][0]['settings']['clients'][0]['id']
     PORT = file['inbounds'][0]['port']
     ALTERID = file['inbounds'][0]['settings']['clients'][0]['alterId']
