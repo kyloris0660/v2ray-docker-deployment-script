@@ -130,7 +130,7 @@ if __name__ == '__main__':
     ALTERID = file['inbounds'][0]['settings']['clients'][0]['alterId']
     kitsunebi_format_str = 'vmess://' + (base64.b64encode(str.encode(
         'auto:%s@%s:%s' % (UUID, IP, PORT)))).decode(
-        "utf-8") + '?network=tcp&aid=64&tls=0&allowInsecure=1&mux=1&muxConcurrency=8'
+        "utf-8") + '%3Fnetwork%3Dtcp%26aid%3D64%26tls%3D0%26allowInsecure%3D1%26mux%3D1%26muxConcurrency%3D8'
     qr_code = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + kitsunebi_format_str
     print('============================================')
     print('IP: \033[0;31m%s\033[0m' % IP)
