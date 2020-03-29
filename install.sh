@@ -73,8 +73,9 @@ fi
 python3 ./genUUID.py
 chmod +r ./config.json
 mkdir /etc/v2ray
+mkdir /var/log/v2ray
 cp ./config.json /etc/v2ray/config.json
-docker run --restart always --network host -d --name v2ray -v /etc/v2ray:/etc/v2ray v2ray/official  v2ray -config=/etc/v2ray/config.json
+docker run --restart always --network host -d --name v2ray -v /etc/v2ray:/etc/v2ray -v /var/log/v2ray/:/var/log/v2ray/ v2ray/official  v2ray -config=/etc/v2ray/config.json
 if [ $? -eq 0 ]; then
     printf "${TPUT_BGGREEN}${TPUT_WHITE}${TPUT_BOLD} OK ${TPUT_RESET} ${*} \t"
     echo -e "${green}v2ray online.${none}"
